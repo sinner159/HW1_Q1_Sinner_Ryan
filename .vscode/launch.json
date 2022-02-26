@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "driver.py",
+            "console": "integratedTerminal",
+            "args": ["ast", "6,1,8,4,0,2,7,3,5"],
+        }
+    ]
+}
+// 1,2,5,3,4,0,6,7,8
+//"5,0,1,3,4,2,6,7,8"
+// 0,1,2,3,4,5,6,7,8
+// 1,0,2,3,4,5,6,7,8
+//3,1,2,6,4,5,0,7,8
+//1,2,5,3,4,0,6,7,8
+//8,1,2,0,4,3,7,6,5 ast doesn't halt here
