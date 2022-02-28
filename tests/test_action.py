@@ -1,15 +1,15 @@
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import actions.action as Actions
-from state import State
+import actions.tile_game_actions as Actions
+from state import TileGameState
 
-up = Actions.Up(3)
-down = Actions.Down(3, 8)
-left = Actions.Left(3)
-right = Actions.Right(3)
+up = Actions.Up()
+down = Actions.Down()
+left = Actions.Left()
+right = Actions.Right()
 
 def get_state(board: tuple):
-    state = State(board, board.index(0))
+    state = TileGameState(board, board.index(0))
     return state
 
 def test_up():

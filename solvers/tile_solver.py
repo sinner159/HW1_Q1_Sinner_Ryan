@@ -1,9 +1,10 @@
+from math import sqrt
 import time
-from actions.action import NTileGameActions
+from actions.tile_game_actions import NTileGameActions
 from node import Node
 from search import TreeSearch
 from frontier import DFSFrontier
-from state import State
+from state import TileGameState
 from result import Result
 
 import sys
@@ -11,17 +12,13 @@ import sys
 
 class TileSolver():
 
-    def __init__(self, nth_tile, exponent):
-        self.nth_tile = nth_tile
-        self.exponent = exponent
-
     def go(self, frontier, initial_board):
 
-        goal = self.get_goal_state(self.nth_tile)
-        
         start_state = self.get_start_state(initial_board)
 
-        actions = NTileGameActions(self.nth_tile, self.exponent, type(frontier) == DFSFrontier)
+        goal = self.get_goal_state(len(start_state.state.board))
+
+        actions = NTileGameActions(type(frontier) == DFSFrontier)
 
         search = TreeSearch(frontier, actions, goal)
         
@@ -52,13 +49,14 @@ class TileSolver():
 
     def get_goal_state(self, n: int):
         goal = []
-        for i in range(n + 1):
+        for i in range(n):
             goal.append(i)
         return tuple(goal)
 
     def get_start_state(self, initial_board):
         blank_pos = initial_board.index(0)
-        initial_state = State(initial_board,blank_pos)
+        TileGameState.board_dimension = int(sqrt(len(initial_board)))
+        initial_state = TileGameState(initial_board,blank_pos)
         start_state = Node(initial_state, time.time())
         return start_state
 

@@ -1,15 +1,11 @@
-from action import Action
-from state import State
+from .action import Action
+from state import TileGameState
 
 class NTileGameAction(Action):
     
-    def __init__(self,exponent):
-        self.new_position = None
-        self.exponent = exponent
-    
     def simulate(self, state):
                 
-        new_pos = self.calculate_new_position(state.blank_pos)
+        new_pos = self.calculate_new_position(state)
         
         board_as_list = list(state.board)
         temp = board_as_list[new_pos]
@@ -18,26 +14,23 @@ class NTileGameAction(Action):
         
         board = tuple(board_as_list)
         
-        new_state = State(board, new_pos)
+        new_state = TileGameState(board, new_pos)
         
         return new_state
 
-    def calculate_new_position(self,blank_pos):
-        return int(self.calculate_new_position_internal(blank_pos))
+    def calculate_new_position(self, state):
+        return int(self.calculate_new_position_internal(state))
 
     def calculate_new_position_internal(self,blank_pos): raise NotImplementedError
     
         
 class Up(NTileGameAction):
     
-    def __init__(self, exponent):
-        super().__init__(exponent)
-    
-    def calculate_new_position_internal(self, blank_pos):
-        return blank_pos - self.exponent
+    def calculate_new_position_internal(self, state):
+        return state.blank_pos - state.board_dimension
     
     def is_possible(self, state):
-        return state.blank_pos >= self.exponent
+        return state.blank_pos >= state.board_dimension
     
     def get_name(self):
         return "Up"
@@ -47,18 +40,12 @@ class Up(NTileGameAction):
     
     
 class Down(NTileGameAction):
-    
-    nth_tile = 0
-     
-    def __init__(self, exponent, nth_tile):
-        super().__init__(exponent)
-        self.nth_tile = nth_tile
-    
-    def calculate_new_position_internal(self,blank_pos):
-        return blank_pos + self.exponent
+
+    def calculate_new_position_internal(self,state):
+        return state.blank_pos + state.board_dimension
     
     def is_possible(self,state):
-        return state.blank_pos <= self.nth_tile - self.exponent
+        return state.blank_pos < len(state.board) - state.board_dimension
     
     def get_name(self):
         return "Down"
@@ -67,15 +54,12 @@ class Down(NTileGameAction):
         return 2
     
 class Left(NTileGameAction):
-       
-    def __init__(self, exponent):
-        super().__init__(exponent)
     
-    def calculate_new_position_internal(self, blank_pos):
-        return blank_pos - 1
+    def calculate_new_position_internal(self, state):
+        return state.blank_pos - 1
     
     def is_possible(self, state):
-        return state.blank_pos % self.exponent  > 0
+        return state.blank_pos % state.board_dimension  > 0
 
     def get_name(self):
         return "Left"
@@ -85,15 +69,11 @@ class Left(NTileGameAction):
     
 class Right(NTileGameAction):
     
-       
-    def __init__(self,exponent):
-        super().__init__(exponent)
-    
-    def calculate_new_position_internal(self,blank_pos):
-        return blank_pos + 1
+    def calculate_new_position_internal(self,state):
+        return state.blank_pos + 1
     
     def is_possible(self,state):
-        return state.blank_pos % self.exponent < (self.exponent-1)
+        return state.blank_pos % state.board_dimension < (state.board_dimension - 1)
     
     def get_name(self):
         return "Right"
@@ -103,30 +83,21 @@ class Right(NTileGameAction):
         
 class NTileGameActions():
 
-    def __init__(self,nth_tile,exponent, reverse):
-    
-        self.actions = []
-        
+    def __init__(self, reverse):
+
         if reverse:
-            self.actions.append(Right(exponent))
-            self.actions.append(Left(exponent))
-            self.actions.append(Down(exponent, nth_tile))
-            self.actions.append(Up(exponent))
+            self.actions = [Right(), Left(), Down(), Up()]
         else:
-            self.actions.append(Up(exponent))
-            self.actions.append(Down(exponent, nth_tile))
-            self.actions.append(Left(exponent))
-            self.actions.append(Right(exponent))
+            self.actions = [Up(), Down(), Left(), Right()]
 
         self.current = -1
-        self.size = len(self.actions)
 
     def __iter__(self):
         return self
     
     def __next__(self):
         self.current += 1
-        if self.current < self.size:
+        if self.current < len(self.actions):
             return self.actions[self.current]
         else:
             self.current = -1

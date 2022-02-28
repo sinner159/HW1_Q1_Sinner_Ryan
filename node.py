@@ -46,3 +46,4 @@ class Node():
 
     def __eq__(self, other):
         return type(other) == type(self) and self.f_value == other.f_value and self.action_precedence == other.action_precedence
+

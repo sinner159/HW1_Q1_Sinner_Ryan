@@ -1,2 +1,5 @@
 class CryptPuzzleSolver():
-    a = 0
+    
+
+    def solve():
+        

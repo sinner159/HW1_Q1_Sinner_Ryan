@@ -1,4 +1,3 @@
-from math import log2
 import sys
 from frontier import  FrontierFactory
 from solvers.tile_solver import TileSolver
@@ -12,18 +11,11 @@ initial_board = tuple(map(int,board_as_list))
 
 method = sys.argv[1]
 
-
-num_tiles = len(initial_board)
-nth_tile =  num_tiles - 1
-
-#Getting n in 2^n which helps with boundary calculation later
-exponent = log2(nth_tile)
-
-factory = FrontierFactory(exponent)
+factory = FrontierFactory()
 frontier = factory.GetFrontier(method)
         
 
-solver = TileSolver(nth_tile,exponent)
+solver = TileSolver()
 result = solver.go(frontier, initial_board)
 
 print(result)

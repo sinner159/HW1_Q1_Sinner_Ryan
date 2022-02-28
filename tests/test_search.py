@@ -7,7 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 @pytest.fixture
 def factory():
-    yield FrontierFactory(3)
+    yield FrontierFactory()
 
 
 @pytest.mark.parametrize ("number,method,board,expected", [\
@@ -36,7 +36,7 @@ def factory():
     (18,"ast",(8,1,2,0,4,3,7,6,5),Result([], 0, 181440, 0, 31))\
 ])
 def test_search(number,method,board, expected,factory):
-    solver = TileSolver(8,3)
+    solver = TileSolver()
     frontier = factory.GetFrontier(method)
     result = solver.go(frontier,board)
     validate_path_to_goal(expected, result)
