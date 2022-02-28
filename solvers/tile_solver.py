@@ -1,5 +1,5 @@
 import time
-from actions import NTileGameActions
+from actions.action import NTileGameActions
 from node import Node
 from search import TreeSearch
 from frontier import DFSFrontier
@@ -9,7 +9,7 @@ from result import Result
 import sys
 
 
-class Solver():
+class TileSolver():
 
     def __init__(self, nth_tile, exponent):
         self.nth_tile = nth_tile

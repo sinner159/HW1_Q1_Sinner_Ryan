@@ -1,9 +1,6 @@
-from operator import methodcaller
 import os, sys
-from random import getstate
-import time
 import pytest
-from solver import Solver
+from solvers.tile_solver import TileSolver
 from result import Result
 from frontier import FrontierFactory
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -39,7 +36,7 @@ def factory():
     (18,"ast",(8,1,2,0,4,3,7,6,5),Result([], 0, 181440, 0, 31))\
 ])
 def test_search(number,method,board, expected,factory):
-    solver = Solver(8,3)
+    solver = TileSolver(8,3)
     frontier = factory.GetFrontier(method)
     result = solver.go(frontier,board)
     validate_path_to_goal(expected, result)

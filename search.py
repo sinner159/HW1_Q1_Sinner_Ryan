@@ -1,5 +1,5 @@
 import time
-from actions import Action
+from actions.action import Action
 from node import Node
 from frontier import Frontier
 

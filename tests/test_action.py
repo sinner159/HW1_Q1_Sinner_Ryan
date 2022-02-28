@@ -1,7 +1,6 @@
 import os, sys
-from random import getstate
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import actions as Actions
+import actions.action as Actions
 from state import State
 
 up = Actions.Up(3)

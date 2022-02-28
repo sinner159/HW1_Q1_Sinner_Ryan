@@ -4,14 +4,28 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
         {
-            "name": "Python: Current File",
+            "name": "Python: Crypt",
+            "type": "python",
+            "request": "launch",
+            "program": "a.py",
+            "console": "integratedTerminal",
+            "args": [
+                "SAVE",
+                "MORE",
+                "MONEY"
+            ],
+        },
+        {
+            "name": "Python: 8Puzzle",
             "type": "python",
             "request": "launch",
             "program": "driver.py",
             "console": "integratedTerminal",
-            "args": ["ast", "6,1,8,4,0,2,7,3,5"],
+            "args": [
+                "ast",
+                "6,1,8,4,0,2,7,3,5"
+            ],
         }
     ]
 }

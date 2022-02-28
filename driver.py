@@ -1,7 +1,7 @@
 from math import log2
 import sys
 from frontier import  FrontierFactory
-from solver import Solver
+from solvers.tile_solver import TileSolver
 
 print(f"Method passed in: {sys.argv[1]}")
 print(f"Board passed in: {str(sys.argv[2])}")
@@ -23,7 +23,7 @@ factory = FrontierFactory(exponent)
 frontier = factory.GetFrontier(method)
         
 
-solver = Solver(nth_tile,exponent)
+solver = TileSolver(nth_tile,exponent)
 result = solver.go(frontier, initial_board)
 
 print(result)
