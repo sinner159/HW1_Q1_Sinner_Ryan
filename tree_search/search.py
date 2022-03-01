@@ -1,14 +1,10 @@
 import time
-from actions.action import Action
-from node import Node
-from frontier import Frontier
+from .node import Node
+from .frontier import Frontier
 
 class TreeSearch:
     
     def __init__(self, frontier, actions, goal):
-        self.goal = None
-        self.frontier = None
-        self.actions = [Action]
         self.nodes_expanded = 0
         self.max_search_depth = 0
 
@@ -18,7 +14,7 @@ class TreeSearch:
 
     def search(self, root):
 
-        if root.state.board == self.goal:
+        if root.state == self.goal:
             return root
 
         self.frontier.add_to_previously_visited(root)
@@ -28,7 +24,7 @@ class TreeSearch:
             
             node = self.frontier.pop()
             
-            if node.state.board == self.goal:
+            if node.state == self.goal:
                 return node
             else:
                 self.expand(node)

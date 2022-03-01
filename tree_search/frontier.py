@@ -1,7 +1,7 @@
 from argparse import ArgumentError
 from data_structures.linked_list import LinkedList
 from data_structures.min_heap import MinHeap
-from node import Node
+from .node import Node
 
 
 class Frontier():

@@ -1,5 +1,5 @@
 from .action import Action
-from state import TileGameState
+from states.tile_game_state import TileGameState
 
 class NTileGameAction(Action):
     
@@ -80,25 +80,4 @@ class Right(NTileGameAction):
 
     def get_precedence(self):
         return 4
-        
-class NTileGameActions():
-
-    def __init__(self, reverse):
-
-        if reverse:
-            self.actions = [Right(), Left(), Down(), Up()]
-        else:
-            self.actions = [Up(), Down(), Left(), Right()]
-
-        self.current = -1
-
-    def __iter__(self):
-        return self
     
-    def __next__(self):
-        self.current += 1
-        if self.current < len(self.actions):
-            return self.actions[self.current]
-        else:
-            self.current = -1
-            raise StopIteration

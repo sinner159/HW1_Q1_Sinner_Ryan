@@ -1,11 +1,11 @@
 from math import sqrt
 import time
-from actions.tile_game_actions import NTileGameActions
-from node import Node
-from search import TreeSearch
-from frontier import DFSFrontier
-from state import TileGameState
-from result import Result
+from actions.tile_game_actions import Up, Down, Left, Right
+from tree_search.node import Node
+from tree_search.search import TreeSearch
+from tree_search.frontier import DFSFrontier
+from states.tile_game_state import TileGameState
+from solvers.result import Result
 
 import sys
 
@@ -18,7 +18,7 @@ class TileSolver():
 
         goal = self.get_goal_state(len(start_state.state.board))
 
-        actions = NTileGameActions(type(frontier) == DFSFrontier)
+        actions = [Right(), Left(), Down(), Up()] if type(frontier) == DFSFrontier else [Up(), Down(), Left(), Right()]
 
         search = TreeSearch(frontier, actions, goal)
         
@@ -51,7 +51,8 @@ class TileSolver():
         goal = []
         for i in range(n):
             goal.append(i)
-        return tuple(goal)
+        goal_state = TileGameState(tuple(goal),goal.index(0))
+        return goal_state
 
     def get_start_state(self, initial_board):
         blank_pos = initial_board.index(0)

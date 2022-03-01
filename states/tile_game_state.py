@@ -1,8 +1,4 @@
-class State():
-
-    def __hash__(self): raise NotImplementedError
-
-
+from .state import State
 class TileGameState(State):
 
     board_dimension = 0
@@ -34,11 +30,3 @@ class TileGameState(State):
 
                 sum += abs(y1 - y2) + abs(x1 - x2)
         return sum
-
-class CryptPuzzleState(State):
-
-    def __init__(self, letter_values):
-        self.letter_values = letter_values
-        
-
-    

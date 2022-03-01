@@ -1,7 +1,7 @@
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import actions.tile_game_actions as Actions
-from state import TileGameState
+from states.tile_game_state import TileGameState
 
 up = Actions.Up()
 down = Actions.Down()
@@ -9,6 +9,7 @@ left = Actions.Left()
 right = Actions.Right()
 
 def get_state(board: tuple):
+    TileGameState.board_dimension = 3
     state = TileGameState(board, board.index(0))
     return state
 

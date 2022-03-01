@@ -1,5 +1,5 @@
 import sys
-from frontier import  FrontierFactory
+from tree_search.frontier import  FrontierFactory
 from solvers.tile_solver import TileSolver
 
 print(f"Method passed in: {sys.argv[1]}")
