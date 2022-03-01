@@ -2,8 +2,8 @@
 import json
 from random import random, randrange
 import sys
-from tree_search.frontier import BFSFrontier
-from tree_search.search import TreeSearch
+from graph_search.frontier import BFSFrontier
+from graph_search.search import TreeSearch
 import actions.crypt_puzzle_actions as cpa
 
 word1 = ""

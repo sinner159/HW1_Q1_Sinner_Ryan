@@ -1,9 +1,9 @@
 from math import sqrt
 import time
 from actions.tile_game_actions import Up, Down, Left, Right
-from tree_search.node import Node
-from tree_search.search import TreeSearch
-from tree_search.frontier import DFSFrontier
+from graph_search.node import Node
+from graph_search.search import GraphSearch
+from graph_search.frontier import DFSFrontier
 from states.tile_game_state import TileGameState
 from solvers.result import Result
 
@@ -18,9 +18,12 @@ class TileSolver():
 
         goal = self.get_goal_state(len(start_state.state.board))
 
+        #Each action has a is_possible and simulate method
+        #if is_possible is false then we don't add to frontier
+        #otherwise we modify a copy of the current state to generate a new one
         actions = [Right(), Left(), Down(), Up()] if type(frontier) == DFSFrontier else [Up(), Down(), Left(), Right()]
 
-        search = TreeSearch(frontier, actions, goal)
+        search = GraphSearch(frontier, actions, goal)
         
         start = time.time()
         node = search.search(start_state)

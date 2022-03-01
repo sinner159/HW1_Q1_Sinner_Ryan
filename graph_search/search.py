@@ -2,7 +2,8 @@ import time
 from .node import Node
 from .frontier import Frontier
 
-class TreeSearch:
+#Graph Search because we are keeping track of previously visited nodes
+class GraphSearch:
     
     def __init__(self, frontier, actions, goal):
         self.nodes_expanded = 0

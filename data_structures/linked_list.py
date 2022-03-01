@@ -1,4 +1,4 @@
-from tree_search.node import Node
+from graph_search.node import Node
 
 class LinkedList():
     

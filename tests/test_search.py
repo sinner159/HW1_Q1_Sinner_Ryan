@@ -2,7 +2,7 @@ import os, sys
 import pytest
 from solvers.tile_solver import TileSolver
 from solvers.result import Result
-from tree_search.frontier import FrontierFactory
+from graph_search.frontier import FrontierFactory
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 @pytest.fixture
