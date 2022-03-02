@@ -4,6 +4,7 @@ from actions.tile_game_actions import Up, Down, Left, Right
 from graph_search.node import Node
 from graph_search.search import GraphSearch
 from graph_search.frontier import DFSFrontier
+from states.tile_game_goal import TileGameGoal
 from states.tile_game_state import TileGameState
 from solvers.result import Result
 
@@ -16,17 +17,17 @@ class TileSolver():
 
         start_state = self.get_start_state(initial_board)
 
-        goal = self.get_goal_state(len(start_state.state.board))
+        goal = TileGameGoal(len(start_state.state.board))
 
         #Each action has a is_possible and simulate method
         #if is_possible is false then we don't add to frontier
         #otherwise we modify a copy of the current state to generate a new one
         actions = [Right(), Left(), Down(), Up()] if type(frontier) == DFSFrontier else [Up(), Down(), Left(), Right()]
 
-        search = GraphSearch(frontier, actions, goal)
+        search = GraphSearch(frontier, actions)
         
         start = time.time()
-        node = search.search(start_state)
+        node = search.search(start_state, goal)
         end = time.time()
 
         mem_usage = self.get_mem_usage()
@@ -49,13 +50,6 @@ class TileSolver():
             import resource
             mem_usage = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
         return mem_usage
-
-    def get_goal_state(self, n: int):
-        goal = []
-        for i in range(n):
-            goal.append(i)
-        goal_state = TileGameState(tuple(goal),goal.index(0))
-        return goal_state
 
     def get_start_state(self, initial_board):
         blank_pos = initial_board.index(0)

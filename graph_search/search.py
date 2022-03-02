@@ -1,21 +1,21 @@
 import time
 from .node import Node
 from .frontier import Frontier
-
+from states.goal_state import Goal
+from actions.action import Action
 #Graph Search because we are keeping track of previously visited nodes
 class GraphSearch:
     
-    def __init__(self, frontier, actions, goal):
+    def __init__(self, frontier, actions):
         self.nodes_expanded = 0
         self.max_search_depth = 0
 
         self.frontier : Frontier = frontier
         self.actions = actions
-        self.goal = goal
 
-    def search(self, root):
+    def search(self, root, goal: Goal):
 
-        if root.state == self.goal:
+        if goal.is_goal_state(root):
             return root
 
         self.frontier.add_to_previously_visited(root)
@@ -25,7 +25,7 @@ class GraphSearch:
             
             node = self.frontier.pop()
             
-            if node.state == self.goal:
+            if goal.is_goal_state(node):
                 return node
             else:
                 self.expand(node)

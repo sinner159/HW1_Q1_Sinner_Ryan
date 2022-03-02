@@ -12,7 +12,7 @@
             "name": "Python: Crypt",
             "type": "python",
             "request": "launch",
-            "program": "a.py",
+            "program": "crypt_driver.py",
             "console": "integratedTerminal",
             "args": [
                "YOUR",

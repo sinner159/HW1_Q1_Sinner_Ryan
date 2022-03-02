@@ -1,10 +1,7 @@
-from action import Action
+from actions.action import Action
 from states.crypt_puzzle_state import CryptPuzzleState
 
 class CryptPuzzleAction(Action):
-
-    def __init__(self, constraints):
-        a=0
 
     def simulate(self, state): 
         new_state = CryptPuzzleState(state.words, state.letter_values, state.remainders, state.domain)
@@ -12,7 +9,7 @@ class CryptPuzzleAction(Action):
         
     def internal_simulate(self,state): raise NotImplementedError
 
-    def is_possible(self,state: CryptPuzzleState):
+    def is_possible(self, state):
         state = self.internal_simulate(state)
 
         left_letter = state.get_current_letter(0)
@@ -22,6 +19,7 @@ class CryptPuzzleAction(Action):
         
         if state.get_current_remainder() > 1:
             return False
+        
         remainder = state.get_current_remainder()
         if remainder == 0:
             # right most can't be 0 if same and result is diff
@@ -31,37 +29,26 @@ class CryptPuzzleAction(Action):
                 return False
             elif right_letter == result_letter and state.state.get_current_letter_value(0) != 0:
                 return False
-        else:
-            value1 = state.letter_values[left_letter] 
-            value2 = state.letter_values[right_letter]
-            result = state.letter_values[result_letter]
+        
+        if left_letter not in state.letter_values or right_letter not in state.letter_values or result_letter not in state.letter_values:
+            return False
+        
+        #select values
+        temp_dict = dict()
+        for letter in set([left_letter,right_letter, result_letter]):
+            temp_dict[letter] = 0
+        value1 = temp_dict[left_letter]
+        value2 = temp_dict[right_letter]
+        result = temp_dict[result_letter]
 
-            if remainder + value1 + value2 == result % 10:
-                state.remainders.append(result//10)
-                state.index -= 1
-                return True
+        if remainder + value1 + value2 == result % 10:
+            state.remainders.append(result//10)
+            state.index -= 1
+            return True
 
         return False  
                 
     def get_name(self): raise NotImplementedError
     def get_precedence(self): raise NotImplementedError
 
-class IncrementLeftOperand(CryptPuzzleAction):
-   def internal_simulate(self, state):
-        state.set_current_letter_value(0,state.domain[0])
-        return state
-
-class IncrementRightOperand(CryptPuzzleAction):
-  def internal_simulate(self, state):
-        state.set_current_letter_value(1,state.domain[0])
-        return state
-
-class IncrementResult(CryptPuzzleAction):
-    def internal_simulate(self, state):
-        state.set_current_letter_value(2,state.domain[0])
-        return state
-
-class IncrementRemainderValue(CryptPuzzleAction):
-    def internal_simulate(self, state):
-        state.remainders[state.get_remainder_index()] += 1
-        return state
+    def assign_values(self,state):
