@@ -1,39 +1,45 @@
 
-import json
-from random import random, randrange
+import time
+from graph_search.node import Node
 import sys
 from graph_search.frontier import BFSFrontier
-from graph_search.search import TreeSearch
+from graph_search.search import GraphSearch
 import actions.crypt_puzzle_actions as cpa
+from states.crypt_puzzle_state import CryptPuzzleState
+from states.crypt_puzzle_goal import CryptPuzzleGoal
 
-word1 = ""
-word2 = ""
-word3 = ""
-if len(sys.argv) < 2:
-    word1 = input()
-    word2 = input()
-    word3 = input()
-else:
-    word1 = str(sys.argv[1])
-    word2 = str(sys.argv[2])
-    word3 = str(sys.argv[3])
+def get_letters_set(words):
+    s = set()
+    for word in words:
+        for letter in word:
+            s.add(letter)
+    return list(s)
 
-words = [word1,word2,word3]
-s = set()
+def get_input():
+    words = []
+    if len(sys.argv) < 2:
+        words.append(input())
+        words.append(input())
+        words.append(input())
+    else:
+        words = sys.argv[1:4]
+    return words
 
-for word in words:
-    for letter in word:
-        s.add(letter)
+words = get_input()
 
-set_letters = list(s)
+s = get_letters_set(words)
 
-d = {}
-for i, e in enumerate(s):
-    d[e] = i
+letter_values = {}
 
-actions = [cpa.IncrementLeftOperand,cpa.IncrementRightOperand,cpa.IncrementResult,cpa.IncrementRemainderValue]
-search = TreeSearch(BFSFrontier(),actions,)
-print(f"{word1}\n{word2}\n{word3}\n")
+actions = [cpa.IncrementLeftOperand(),cpa.IncrementRightOperand(),cpa.IncrementResult(),cpa.IncrementRemainderValue()]
+search = GraphSearch(BFSFrontier(),actions)
+
+initial_state = CryptPuzzleState(words,{},[0],[0,1,2,3,4,5,6,7,8,9])
+root = Node(initial_state, time.time())
+
+goal = CryptPuzzleGoal()
+node = search.search(root, goal)
+print(words)
 
 # for r in previous_results:
 #     json_string = r.replace("'","\"")
